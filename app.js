@@ -6,13 +6,14 @@ var express = require('express');
 var fs = require('fs')
 var http = require('http')
 var form = require('connect-form');
-var hashlib = require('hashlib');
+require('joose');
+require('joosex-namespace-depended');
+require('hashlib');
 var drawApi = require('./public/js/drawApi.js');
 var serial = require('./public/js/serial.js');
 var querystring = require('querystring');
 var Canvas = require('canvas');
 var nodemailer = require('nodemailer');
-var cf  = require("cloudfoundry");
 
 
 var Image = Canvas.Image;
@@ -25,6 +26,10 @@ var app = express.createServer(
 
 function createCanvas(source, data, callback) {
 	fs.readFile(source, function(err, imageData) {
+		if (err) {
+			console.log("There was an error reading the image file. ", err);
+			return;
+		}
 		var img = new Image;
 		img.onerror = function(e) {
 			console.log("Error:" + e);
@@ -185,7 +190,6 @@ app.post('/doUpload', function(req, res, next) {
 	});
 });
 
-var port = (typeof cf.getAppPort == "function") ? cf.getAppPort() : 3000;
 app.listen(port);
 
 
