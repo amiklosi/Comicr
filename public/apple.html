@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<script src="js/jquery.url.min.js"></script>
+	<link rel="stylesheet" type="text/css"
+		  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="css/fileuploader.css" rel="stylesheet" type="text/css">
+	<script src="js/fileuploader.js" type="text/javascript"></script>
+	<script src="js/serial.js" type="text/javascript"></script>
+	<script src="js/bubble.js" type="text/javascript"></script>
+	<script src="js/drawApi.js" type="text/javascript"></script>
+
+
+	<style>
+	</style>
+</head>
+<body>
+
+<div align="center">
+	<div id="file-uploader" class="myButton small" align="center">
+		Upload Image
+		<noscript>
+			<p>Please enable JavaScript to use file uploader.</p>
+		</noscript>
+	</div>
+
+	<br/>
+	<canvas id="canv" width="300" height="225" class="paintCanvas"></canvas>
+
+	<span id="bubbles">
+	</span>
+
+	<br/>
+
+	<button id="btn" class="myButton">Download</button>
+	<button id="btn2" class="myButton">Share</button>
+	<button id="btn3" class="myButton">Bubbles</button>
+
+</div>
+
+<textarea id="textInput" rows="1" cols="10" onkeyup="textChange(this.value)" style="position: absolute;"></textarea>
+
+</body>
+</html>
