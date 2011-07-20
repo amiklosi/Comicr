@@ -16,7 +16,6 @@ app.get('/imageFromWeb', function(req, mainRes) {
 		res.on("data", function(chunk) {
 			buffers.push(new Buffer(chunk, 'binary'));
 			sumLength += chunk.length;
-			console.log(typeof chunk);
 		});
 		res.on('end', function(chunk) {
 			console.log("Total Length: ", sumLength);

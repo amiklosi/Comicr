@@ -23,7 +23,14 @@ function createUploader() {
 		action: '/doUpload',
 		allowedExtensions: ['png','jpg','jpeg','gif'],
 		debug: true,
+		onSubmit: function(id, fileName) {
+			$('#progress').show();
+		},
+		onProgress: function(id, fileName, loaded, total) {
+			$('#progress').html( "Uploading: " + (loaded/total*100).toFixed(0)+"%" );
+		},
 		onComplete: function(id, fileName, responseJSON) {
+			$('#progress').hide();
 			image = responseJSON.id;
 			loadImage("/upload/" + responseJSON.id);
 		}
@@ -111,7 +118,6 @@ $(this).ready(function() {
 	});
 
 	$('#canv').watch("left,top,width,height", function(e) {
-			console.log('prevValue: ' + e.prevValue, 'newValue: ' + e.newValue);
 	});
 
 	$('#canv').resize(function() {
