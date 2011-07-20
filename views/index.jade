@@ -25,7 +25,16 @@ div(align="center")
 								button(id="btnImgur",class="imgButton")
 									img(src="images/imgur.png")
 									span <br/>Imgur
-	br
+	div(id="enterUrl", class="enterUrl")
+		br
+		span(id="formLabel") .
+		br
+		input(id="formField", type="url", size="50")
+		br
+		input(id="formSubmit", type="button",value="Ok")
+		input(id="formCancel", type="button",value="Cancel")
+		br
+		br
 
 	canvas(id="canv",width="300",height="225",class="paintCanvas")
 	span(id="bubbles")

@@ -55,6 +55,11 @@ var Bubble = function(parent) {
 	bubbleCounter++;
 }
 
+
+Bubble.prototype.remove = function() {
+	$('#cont'+this.id).remove();
+}
+
 Bubble.prototype.position = function() {
 	return $('#cont'+this.id).position();
 }

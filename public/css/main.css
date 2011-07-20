@@ -5,10 +5,40 @@ body {
 	font-family: "Myriad Pro", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
 }
 
+input[type="button"] {
+	color: #fff;
+	background: #888;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	font-family: "Myriad Pro", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+	text-shadow: #000 1px 1px black;
+	cursor: pointer;
+	cursor: hand;
+	box-shadow: 1px 1px 1px #000;
+
+}
+
+input {
+	font-size: 16pt;
+}
+
 .headerTable {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#333333', endColorstr = '#000000'); /* for IE */
 	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#000)); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #444, #000); /* for firefox 3.6+ */
+}
+
+.enterUrl {
+	background: #333;
+	display: none;
+	position: fixed;
+	left: 20%;
+	right: 20%;
+	top: 70px;
+	border-radius: 5px;
+	border: 1px solid #888;
+	z-index: 1000;
 }
 
 #resizable {
@@ -56,11 +86,13 @@ body {
 	cursor: hand;
 
 }
+
 .txtButton:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#333333', endColorstr = '#000000');
 	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#555));
 	background: -moz-linear-gradient(top, #ccc, #555);
 }
+
 .imgButton {
 	font-family: "Myriad Pro", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
 	font-size: 10pt;

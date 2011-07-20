@@ -3,23 +3,25 @@
  */
 
 var express = require('express');
-var fs = require('fs')
-var http = require('http')
+fs = require('fs')
+http = require('http')
 var form = require('connect-form');
 require('joose');
 require('joosex-namespace-depended');
-require('hashlib');
+require('hash');
 var drawApi = require('./public/js/drawApi.js');
 var serial = require('./public/js/serial.js');
 var querystring = require('querystring');
 var Canvas = require('canvas');
 var nodemailer = require('nodemailer');
+im = require('imagemagick');
+resize = require('./public/js/resize.js');
 
+mainDirname = __dirname;
 
 var Image = Canvas.Image;
-var app = express.createServer(
+app = express.createServer(
 		express.cookieParser(),
-		express.profiler(),
 		express.session({ secret: "crazysecretstuff"}),
 		form({ keepExtensions: true })
 );
@@ -111,17 +113,6 @@ app.get('/email', function(req, res) {
 				}
 			}
 	);
-
-	fs.readFile(__dirname + "/public/upload/0ae5e5f7e90ce28c0e6e51562f977a99", function(err, imageData) {
-		var img = new Image;
-		img.src = imageData;
-
-		var canvas = new Canvas(img.width, img.height);
-		var ctx = canvas.getContext('2d');
-		ctx.drawImage(img, 0, 0, img.width, img.height);
-
-
-	});
 });
 
 app.get('/imgur', function(req, res) {
@@ -156,7 +147,6 @@ app.get('/imgur', function(req, res) {
 				// post the data
 				post_req.write(post_data);
 				post_req.end();
-//				res.send("ok");
 			}
 	);
 
@@ -178,19 +168,53 @@ app.get('/image', function(req, res) {
 });
 
 
+
 app.post('/doUpload', function(req, res, next) {
-	var str = hashlib.md5(new Date().toString() + req.sessionID);
-	var out = fs.createWriteStream(__dirname + '/public/upload/' + str);
+	var str = Hash.md5(new Date().toString() + req.sessionID);
 	req.session.iUrl = str;
+	var buffers = [];
+	var sumLength = 0;
 	req.on("data", function(chunk) {
-		out.write(chunk);
+		buffers.push(chunk);
+		sumLength += chunk.length;
+		console.log(chunk.length);
 	});
-	req.on('end', function() {
-		res.send('{success:true, id: "' + str + '"}');
+	req.on('end', function(chunk) {
+		console.log("Total Length: ", sumLength);
+		var pos = 0;
+		var bigBuffer = new Buffer(sumLength + 1)
+		for (var i = 0; i < buffers.length; i++) {
+			buffers[i].copy(bigBuffer, pos, 0);
+			pos += buffers[i].length;
+		}
+		resize.writeToAndResizeIfNeeded(bigBuffer, 800, 600, __dirname + '/public/upload/' + str,
+				function() {
+					res.send(JSON.stringify({success: true, id: str}));
+				},
+				function() {
+					res.send(JSON.stringify({success: false}));
+				}
+		);
 	});
 });
 
-app.listen(port);
+app.get('/testAlc', function(req, res) {
+
+	var conv = im.convert(['/a.png', '-resize', '300x', '/a_res.png'], function(err, met) {
+		if (err) throw err;
+		res.send('Shot at ' + met);
+		console.log(met)
+	})
+	conv.on('data', function(chunk) {
+		console.log(chunk);
+	});
+});
+
+
+require('./controllers/uploadFromWeb.js');
+
+
+app.listen(3000);
 
 
 console.log('Express app started on port 3000');
