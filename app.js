@@ -15,6 +15,9 @@ var querystring = require('querystring');
 var Canvas = require('canvas');
 var nodemailer = require('nodemailer');
 im = require('imagemagick');
+im.identify.path = "/usr/local/bin/identify";
+im.convert.path = "/usr/local/bin/convert";
+
 resize = require('./public/js/resize.js');
 
 mainDirname = __dirname;
