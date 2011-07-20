@@ -5,6 +5,8 @@ div(align="center")
 				div(align="center")
 					table(class='headerTable')
 						tr(align="center")
+							td(valign="center")
+								span Get from
 							td
 								div(id="file-uploader",class="imgButton")
 									img(src="images/computer.png")
@@ -16,6 +18,7 @@ div(align="center")
 								button(id="btnFlickr",class="imgButton")
 									img(src="images/flickr_logo.png")
 									span <br/>FlickR&nbsp;
+							td(valign="center")
 								button(id="btnDownload",class="imgButton")
 									img(src="images/download.png")
 									span <br/>Download
@@ -25,17 +28,43 @@ div(align="center")
 								button(id="btnImgur",class="imgButton")
 									img(src="images/imgur.png")
 									span <br/>Imgur
-	div(id="enterUrl", class="enterUrl")
+							td(valign="center")
+								span Share
+
+	form(id="enterUrl", class="overlayForm centered", action="javascript:formSubmit()")
 		br
 		span(id="formLabel") .
 		br
 		input(id="formField", type="url", size="50")
 		br
-		input(id="formSubmit", type="button",value="Ok")
-		input(id="formCancel", type="button",value="Cancel")
+		input(id="formSubmit", type="submit",value="Ok")
+		input(id="formCancel", class="cancelButton", type="button",value="Cancel")
 		br
 		br
+
 	div(id="progress", class="progress")
+
+	form(id="emailForm", class="overlayForm emailForm", action="javascript:formSubmit()")
+		table(width='100%')
+			tr
+				td Your Email
+				td
+					input(id="emailFrom", type="email", size="50")
+			tr
+				td To*
+				td
+					input(id="emailTo", type="email", size="50", required)
+			tr
+				td Subject
+				td
+					input(id="emailSubject", type="text", size="50", value="Image from Bubblr")
+			tr
+				td Body
+				td
+					textarea(id="emailBody", type="text", rows="10", cols="50") Hi, look at this cool image:
+		br
+		input(id="emailSubmit", type="submit",value="Ok")
+		input(id="emailCancel", class="cancelButton", type="button",value="Cancel")
 
 	canvas(id="canv",width="300",height="225",class="paintCanvas")
 	span(id="bubbles")

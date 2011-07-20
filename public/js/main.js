@@ -2,7 +2,7 @@ var image = iUrl;
 var bubbleEdited;
 var originalText;
 var bubbles = {};
-var formClick;
+var formSubmit;
 
 function loadImage(url) {
 	var cat = new Image();
@@ -27,7 +27,11 @@ function createUploader() {
 			$('#progress').show();
 		},
 		onProgress: function(id, fileName, loaded, total) {
-			$('#progress').html( "Uploading: " + (loaded/total*100).toFixed(0)+"%" );
+			if (loaded < total) {
+				$('#progress').html("Uploading: " + (loaded / total * 100).toFixed(0) + "%");
+			} else {
+				$('#progress').html("Processing...");
+			}
 		},
 		onComplete: function(id, fileName, responseJSON) {
 			$('#progress').hide();
@@ -87,21 +91,25 @@ function hideControls() {
 	$('#textInput').hide();
 }
 
-window.onload = createUploader;
-
 function openForm(text) {
 	var elem = $('#enterUrl');
 	$('#formLabel').html(text);
 	$('#formField').width('80%');
-	if (elem.is(":visible")) elem.fadeOut('fast'); else elem.fadeIn('fast', function() {
+	$('#enterUrl').toggle(function() {
 		$('#formField').focus();
 	});
 }
 
+window.onload = createUploader;
+
 $(this).ready(function() {
 
-	loadImage("/upload/" + iUrl);
+	if (iUrl && iUrl.length > 1) {
+		loadImage("/upload/" + iUrl);
+	}
+
 	$('#textInput').hide();
+
 	$('#canv').click(function(ev) {
 		hideControls();
 		if (!bubbleEdited) {
@@ -115,14 +123,6 @@ $(this).ready(function() {
 		} else {
 			bubbleEdited = undefined;
 		}
-	});
-
-	$('#canv').watch("left,top,width,height", function(e) {
-	});
-
-	$('#canv').resize(function() {
-		console.log('canvas resized');
-
 	});
 
 	$('#flipHoriz').click(function() {
@@ -149,12 +149,12 @@ $(this).ready(function() {
 
 	$('#btnWeb').click(function() {
 		openForm("Enter the Image URL");
-		formClick = function() {
+		formSubmit = function() {
 			var s = "/imageFromWeb?url=" + $("#formField").val();
 			$.getJSON(s, function(json) {
 				if (json.success) {
 					image = json.id;
-					loadImage("/upload/"+json.id);
+					loadImage("/upload/" + json.id);
 					$('#enterUrl').hide();
 				} else {
 					alert('nok');
@@ -165,7 +165,9 @@ $(this).ready(function() {
 
 	$('#btnFlickr').click(function() {
 		openForm("Enter a tag for a random FlickR image");
-		formClick = function() { alert('Coming Soon'); }
+		formSubmit = function() {
+			alert('Coming Soon');
+		}
 	});
 
 	$('#btnDownload').click(function() {
@@ -175,10 +177,27 @@ $(this).ready(function() {
 	});
 
 	$('#btnEmail').click(function() {
-		var s = "/email?file=" + image + "&data=" + serializeBubbles(bubbles);
-		$.getJSON(s, function(json) {
-			alert("JSON Data: " + json.success);
-		});
+		$('#emailForm').toggle();
+		formSubmit = function() {
+			var s = "/email?file=" + image + "&data=" + serializeBubbles(bubbles);
+			$.getJSON(s,
+					{from: $('#emailFrom').val(),
+						to: $('#emailTo').val(),
+						body: $('#emailBody').val(),
+						subject: $('#emailSubject').val()},
+					function(json) {
+						if (json.success) {
+							$('#progress').html("Email sent...");
+						} else {
+							$('#progress').html("Email not sent...");
+							// TODO handle
+						}
+					});
+			$('#emailForm').toggle();
+			$('#progress').show();
+			$('#progress').html("Sending Email...");
+		}
+
 	});
 
 	$('#btnImgur').click(function() {
@@ -187,14 +206,9 @@ $(this).ready(function() {
 		window.location = s;
 	});
 
-	$('#formSubmit').click(function() {
-		formClick();
+	$('.cancelButton').click(function() {
+		$('.overlayForm').fadeOut('fast');
 	});
-
-	$('#formCancel').click(function() {
-		$('#enterUrl').fadeOut('fast');
-	});
-
 
 	$('#textInput').keyup(function(ev) {
 		console.log(ev.keyCode);

@@ -79,11 +79,9 @@ app.get('/email', function(req, res) {
 			function(canvas) {
 				var cid = Date.now() + ".image.png";
 				var message = {
-					sender: "me@example.com",
-					to:"attila.miklosi@gmail.com",
-					subject: "Hello",
-					body: "Hi, how are you doing?",
-					html:"<p><b>Look</b> at this cute image: <br/> <br/> <img src=\"cid:" + cid + "\"/></p>",
+					to:req.query.to,
+					body: req.query.body,
+					html: req.query.body + "<p><img src=\"cid:" + cid + "\"/></p>",
 					attachments:[
 						{
 							filename: "image.png",
@@ -92,6 +90,11 @@ app.get('/email', function(req, res) {
 						}
 					]
 				};
+				console.log(req.query.from);
+				console.log(req.query.from.length);
+				if (req.query.from && req.query.from.length > 0) message.sender = req.query.from;
+				else message.sender = "nobody@nobody.com";
+				if (req.query.subject) message.subject = req.query.subject;
 
 				var callback = function(error, success) {
 					if (error) {
@@ -200,19 +203,6 @@ app.post('/doUpload', function(req, res, next) {
 		);
 	});
 });
-
-app.get('/testAlc', function(req, res) {
-
-	var conv = im.convert(['/a.png', '-resize', '300x', '/a_res.png'], function(err, met) {
-		if (err) throw err;
-		res.send('Shot at ' + met);
-		console.log(met)
-	})
-	conv.on('data', function(chunk) {
-		console.log(chunk);
-	});
-});
-
 
 require('./controllers/uploadFromWeb.js');
 
