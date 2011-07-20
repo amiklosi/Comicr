@@ -183,7 +183,6 @@ app.post('/doUpload', function(req, res, next) {
 	req.on("data", function(chunk) {
 		buffers.push(chunk);
 		sumLength += chunk.length;
-		console.log(chunk.length);
 	});
 	req.on('end', function(chunk) {
 		console.log("Total Length: ", sumLength);
@@ -212,12 +211,12 @@ app.listen(3000);
 
 console.log('Express app started on port 3000');
 
-nodemailer.SMTP = {
-	host: "smtp.gmail.com", // required
-	port: 465, // optional, defaults to 25 or 465
-	use_authentication: true,
-	ssl: true,
-	user: "miklosi.attila@gmail.com",
-	pass: "123bolombika"
-}
+//nodemailer.SMTP = {
+//	host: "smtp.gmail.com", // required
+//	port: 465, // optional, defaults to 25 or 465
+//	use_authentication: true,
+//	ssl: true,
+//	user: "miklosi.attila@gmail.com",
+//	pass: "123bolombika"
+//}
 
