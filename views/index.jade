@@ -43,7 +43,15 @@ div(align="center")
 		br
 
 	div(id="progress", class="progress")
-
+		div(align="right")
+			img(id="closeProgress", src="images/close.png")
+		span(id="progressLabel") Progress
+		br
+		br
+		img(id="progressImage", src="images/ajax-loader.gif")
+		span(id="progessDone",style="display:none") Done.
+		br
+		br
 	form(id="emailForm", class="overlayForm emailForm", action="javascript:formSubmit()")
 		table(width='100%')
 			tr
@@ -65,7 +73,6 @@ div(align="center")
 		br
 		input(id="emailSubmit", type="submit",value="Ok")
 		input(id="emailCancel", class="cancelButton", type="button",value="Cancel")
-
 	canvas(id="canv",width="300",height="225",class="paintCanvas")
 	span(id="bubbles")
 	br

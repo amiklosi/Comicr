@@ -13,6 +13,7 @@ function loadImage(url) {
 		b_canvas.width = cat.width
 		b_canvas.height = cat.height
 		b_context.drawImage(cat, 0, 0);
+		$('#canv').show();
 	};
 }
 
@@ -24,17 +25,17 @@ function createUploader() {
 		allowedExtensions: ['png','jpg','jpeg','gif'],
 		debug: true,
 		onSubmit: function(id, fileName) {
-			$('#progress').show();
+			startProgress("Uploading...");
 		},
 		onProgress: function(id, fileName, loaded, total) {
 			if (loaded < total) {
-				$('#progress').html("Uploading: " + (loaded / total * 100).toFixed(0) + "%");
+				updateProgress("Uploading: " + (loaded / total * 100).toFixed(0) + "%");
 			} else {
-				$('#progress').html("Processing...");
+				updateProgress("Processing...");
 			}
 		},
 		onComplete: function(id, fileName, responseJSON) {
-			$('#progress').hide();
+			doneProgress("Successfully uploaded image");
 			image = responseJSON.id;
 			loadImage("/upload/" + responseJSON.id);
 		}
@@ -98,6 +99,23 @@ function openForm(text) {
 	$('#enterUrl').toggle(function() {
 		$('#formField').focus();
 	});
+}
+
+function startProgress(label) {
+	$('#progress').show();
+	$('#progessDone').hide();
+	$('#progressImage').show();
+	$('#progressLabel').html(label);
+}
+
+function updateProgress(label) {
+	$('#progressLabel').html(label);
+}
+
+function doneProgress(text) {
+	$('#progressImage').hide();
+	$('#progessDone').show();
+	if (text) $('#progessDone').html(text);
 }
 
 window.onload = createUploader;
@@ -187,27 +205,42 @@ $(this).ready(function() {
 						subject: $('#emailSubject').val()},
 					function(json) {
 						if (json.success) {
-							$('#progress').html("Email sent...");
+							doneProgress();
 						} else {
-							$('#progress').html("Email not sent...");
+							doneProgress();
 							// TODO handle
 						}
 					});
 			$('#emailForm').toggle();
-			$('#progress').show();
-			$('#progress').html("Sending Email...");
+			startProgress("Sending Email...")
 		}
 
 	});
 
 	$('#btnImgur').click(function() {
+		startProgress("Uploading Image to Imgur");
 		var s = "/imgur?file=" + image + "&data=" + serializeBubbles(bubbles);
-		console.log(s);
-		window.location = s;
+
+		var createLink = function(link) {
+			return "<div class='link'><a href='"+link+"' target='_blank'>"+link+"</a></div>";
+		}
+		var handleImgurResponse = function(json) {
+			var links = "Image URL: "+createLink(json.original)+"<br/>";
+			links += "Imgur URL: "+createLink(json.imgur_page)+"<br/>";
+			links += "Delete URL: "+createLink(json.delete_page)+"<br/>";
+			doneProgress("The image on imgur has the following links: <br/>"+links);
+			console.log(json);
+		}
+
+		$.getJSON(s, handleImgurResponse);
 	});
 
 	$('.cancelButton').click(function() {
 		$('.overlayForm').fadeOut('fast');
+	});
+
+	$('#closeProgress').click(function() {
+		$('#progress').hide();
 	});
 
 	$('#textInput').keyup(function(ev) {

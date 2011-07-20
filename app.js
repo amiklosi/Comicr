@@ -122,8 +122,7 @@ app.get('/email', function(req, res) {
 });
 
 app.get('/imgur', function(req, res) {
-	console.log(req.query);
-
+	console.log("Imguring: ",req.query);
 	createCanvas(__dirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				var post_data = querystring.stringify({
@@ -142,12 +141,16 @@ app.get('/imgur', function(req, res) {
 				};
 				var post_req = http.request(post_options, function(pres) {
 					pres.setEncoding('utf8');
+					var response = "";
 					pres.on('data', function (chunk) {
-						console.log('Response: ' + chunk);
-						var obj = JSON.parse(chunk);
-						console.dir(obj);
-						res.redirect(obj.upload.links.imgur_page);
-
+						response += chunk;
+					});
+					pres.on('end', function() {
+						console.log('Response: ' + response);
+						var obj = JSON.parse(response);
+						var result = obj.upload.links;
+						console.dir(result);
+						res.send(JSON.stringify(result))
 					});
 				});
 				// post the data
@@ -205,18 +208,6 @@ app.post('/doUpload', function(req, res, next) {
 
 require('./controllers/uploadFromWeb.js');
 
-
 app.listen(3000);
 
-
-console.log('Express app started on port 3000');
-
-//nodemailer.SMTP = {
-//	host: "smtp.gmail.com", // required
-//	port: 465, // optional, defaults to 25 or 465
-//	use_authentication: true,
-//	ssl: true,
-//	user: "miklosi.attila@gmail.com",
-//	pass: "123bolombika"
-//}
-
+console.log('Bubblr started on port 3000');

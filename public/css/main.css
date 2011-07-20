@@ -40,13 +40,24 @@ textarea {
 }
 
 .progress {
+	position: absolute;
 	display: none;
+	background-color: #444;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	left: 30%;
+	right: 30%;
+	top: 70px;
+	border: 1px solid #888;
+	z-index: 1010;
+	padding: 5px;
+
 }
 
 .overlayForm {
 	background: #333;
 	display: none;
-	position: fixed;
+	position: absolute;
 	left: 20%;
 	right: 20%;
 	top: 70px;
@@ -76,6 +87,7 @@ textarea {
 .paintCanvas {
 	border: 2px solid #999;
 	box-shadow: 3px 3px 3px #000;
+	display: none;
 }
 
 .small {
@@ -114,4 +126,30 @@ textarea {
 }
 
 .cancelButton {
+}
+
+a {
+	text-decoration: none;
+	color: #ddd;
+}
+
+a:link {
+}
+
+a:hover {
+	color: #fdd;
+
+}
+a:active {
+  color: #555;
+}
+
+.link {
+	width: 300px;
+	background: #000;
+	display: inline-block;
+	margin: 5px;
+	border-radius: 5px;
+	text-align: left;
+	padding: 10px;
 }
