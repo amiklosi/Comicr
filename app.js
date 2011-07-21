@@ -73,7 +73,7 @@ app.get('/email', function(req, res) {
 				console.log(req.query.from);
 				console.log(req.query.from.length);
 				if (req.query.from && req.query.from.length > 0) message.sender = req.query.from;
-				else message.sender = "nobody@nobody.com";
+				else message.sender = "info@bubblr.co.uk";
 				if (req.query.subject) message.subject = req.query.subject;
 
 				var callback = function(error, success) {

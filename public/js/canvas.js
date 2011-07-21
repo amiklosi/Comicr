@@ -23,6 +23,12 @@ this.create = function (source, data, callback) {
 				ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 				drawApi.drawBubble(ctx, Number(bubble.x), Number(bubble.y), Number(bubble.w), Number(bubble.h), bubble.text, bubble.type);
 			}
+			ctx.font = '12px Georgia';
+			ctx.strokeStyle = '#999';
+			ctx.fillStyle = '#000'
+			ctx.fillText("bubblr.co.uk", 5, canvas.height - 20);
+			ctx.strokeText("bubblr.co.uk", 5, canvas.height - 20);
+
 			callback(canvas);
 		} catch (e) {
 			console.log("Error", e);

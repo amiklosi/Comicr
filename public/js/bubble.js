@@ -100,7 +100,7 @@ Bubble.prototype.changeText = function(val) {
 	console.log('changing text',this.id,this.w,this.h);
 	b_canvas.width = this.w;
 	b_canvas.height = this.h;
-	this.text = val;
+	this.text = val.replace(/[\n\r]/g,"");
 	this.draw();
 }
 
