@@ -121,8 +121,12 @@ function doneProgress(text) {
 window.onload = createUploader;
 
 $(this).ready(function() {
+	var file = $.url.param("file");
 
-	if (iUrl && iUrl.length > 1) {
+	if (file) {
+		console.log('van file');
+		loadImage("file/"+file);
+	} else if (iUrl && iUrl.length > 1) {
 		loadImage("/upload/" + iUrl);
 	}
 
@@ -220,6 +224,8 @@ $(this).ready(function() {
 	$('#btnFacebook').click(function() {
 		var matches = /^(.*?:\/\/.*?\/)(.*)$/.exec(location.href);
 		u = matches[1]+"facebook?file=" + image + "&data=" + serializeBubbles(bubbles);
+		window.open(u);
+		return;
 		t=document.title;
 		window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');
 	});

@@ -1,7 +1,7 @@
 app.get('/facebook', function(req, res) {
 	console.log("Facebook image request: ", req.query);
 	res.header('Content-Type', 'image/png');
-	var facebookFile = mainDirname + "/public/facebook/" + Hash.md5(req.query.file+req.query.data) + ".png";
+	var facebookFile = mainDirname + "/public/upload/" + Hash.md5(req.query.file+req.query.data) + ".png";
 	var inStream = fs.createReadStream(facebookFile).
 			addListener('error',
 			function() {

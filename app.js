@@ -141,6 +141,31 @@ app.get('/imgur', function(req, res) {
 
 });
 
+app.get('/file/:file',function(req, res) {
+	console.log(req.params.file);
+	var first = true;
+	var inStream = fs.createReadStream(mainDirname+"/public/upload/"+req.params.file).
+			addListener('error',
+			function() {
+				console.log('Image does not exist.');
+				res.header('Content-Type', 'text/plain');
+				res.send('nok');
+			}).
+			addListener('data',
+			function(c) {
+				if (first) {
+					console.log("Setting iurl to "+req.params.file)
+					req.session.iUrl = req.params.file;
+					res.header('Content-Type', 'image/png');
+					first = false;
+				}
+				res.write(c);
+			}).
+			addListener("close", function() {
+				res.end();
+			});
+});
+
 app.get('/image', function(req, res) {
 	console.log(req.query);
 
