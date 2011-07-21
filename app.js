@@ -155,7 +155,7 @@ app.get('/file/:file',function(req, res) {
 			function(c) {
 				if (first) {
 					console.log("Setting iurl to "+req.params.file)
-					req.session.iUrl = req.params.file;
+					req.session.iUrl = req.params.file+".png";
 					res.header('Content-Type', 'image/png');
 					first = false;
 				}
