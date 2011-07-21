@@ -2,18 +2,19 @@
  * Module dependencies.
  */
 
-var express = require('express');
+express = require('express');
 fs = require('fs')
 http = require('http')
-var form = require('connect-form');
+form = require('connect-form');
 require('joose');
 require('joosex-namespace-depended');
 require('hash');
-var drawApi = require('./public/js/drawApi.js');
-var serial = require('./public/js/serial.js');
-var querystring = require('querystring');
-var Canvas = require('canvas');
-var nodemailer = require('nodemailer');
+drawApi = require('./public/js/drawApi.js');
+serial = require('./public/js/serial.js');
+canvas = require('./public/js/canvas.js');
+querystring = require('querystring');
+Canvas = require('canvas');
+nodemailer = require('nodemailer');
 im = require('imagemagick');
 im.identify.path = "/usr/local/bin/identify";
 im.convert.path = "/usr/local/bin/convert";
@@ -22,44 +23,12 @@ resize = require('./public/js/resize.js');
 
 mainDirname = __dirname;
 
-var Image = Canvas.Image;
+Image = Canvas.Image;
 app = express.createServer(
 		express.cookieParser(),
 		express.session({ secret: "crazysecretstuff"}),
 		form({ keepExtensions: true })
 );
-
-function createCanvas(source, data, callback) {
-	fs.readFile(source, function(err, imageData) {
-		if (err) {
-			console.log("There was an error reading the image file. ", err);
-			return;
-		}
-		var img = new Image;
-		img.onerror = function(e) {
-			console.log("Error:" + e);
-		};
-		img.onload = function(e) {
-			console.log('onLoad');
-		}
-		try {
-			img.src = imageData;
-			var bubbles = serial.deserializeBubbles(data);
-			var canvas = new Canvas(img.width, img.height);
-			var ctx = canvas.getContext('2d');
-			ctx.drawImage(img, 0, 0, img.width, img.height);
-			for (var b in bubbles) {
-				var bubble = bubbles[b];
-				console.dir(bubble);
-				ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-				drawApi.drawBubble(ctx, Number(bubble.x), Number(bubble.y), Number(bubble.w), Number(bubble.h), bubble.text, bubble.type);
-			}
-			callback(canvas);
-		} catch (e) {
-			console.log("Error", e);
-		}
-	});
-}
 
 app.configure('development', function() {
 	console.log('development mode');
@@ -86,7 +55,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/email', function(req, res) {
-	createCanvas(__dirname + "/public/upload/" + req.query.file, req.query.data,
+	canvas.create(__dirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				var cid = Date.now() + ".image.png";
 				var message = {
@@ -134,7 +103,7 @@ app.get('/email', function(req, res) {
 
 app.get('/imgur', function(req, res) {
 	console.log("Imguring: ", req.query);
-	createCanvas(__dirname + "/public/upload/" + req.query.file, req.query.data,
+	canvas.create(__dirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				var post_data = querystring.stringify({
 					'key' : 'f0b2267e5fa0e21021efe367acc03ef1',
@@ -178,7 +147,7 @@ app.get('/image', function(req, res) {
 	res.header('Content-Type', 'image/png');
 	res.header('Content-Disposition', 'attachment; filename="speechBubble.png"');
 
-	createCanvas(__dirname + "/public/upload/" + req.query.file, req.query.data,
+	canvas.create(__dirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				stream = canvas.createPNGStream();
 				stream.pipe(res);
