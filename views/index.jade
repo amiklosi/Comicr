@@ -5,31 +5,33 @@ div(align="center")
 				div(align="center")
 					table(class='headerTable')
 						tr(align="center")
-							td(valign="center")
-								span Get from
-							td
-								div(id="file-uploader",class="imgButton")
-									img(src="images/computer.png")
-									span <br/>&nbsp;&nbsp;Your PC&nbsp;&nbsp;
-							td(align="left")
+							td(colspan=1) Get an image from
+							td(colspan=3) Share it with
+						tr
+							td(valign="bottom",align="center", class="getBlock")
+								div(align="center",style="display: inline-block")
+									div(id="file-uploader",class="imgButton")
+										img(src="images/computer.png")
+										span <br/>&nbsp;&nbsp;Your PC&nbsp;&nbsp;
 								button(id="btnWeb",class="imgButton")
 									img(src="images/web.png")
 									span <br/>&nbsp;&nbsp;Web&nbsp;&nbsp;
 								button(id="btnFlickr",class="imgButton")
 									img(src="images/flickr_logo.png")
 									span <br/>FlickR&nbsp;
-							td(valign="center")
+							td(valign="center", class="shareBlock")
 								button(id="btnDownload",class="imgButton")
 									img(src="images/download.png")
-									span <br/>Download
+									span <br/>Your Harddisk
+								button(id="btnFacebook",class="imgButton")
+									img(src="images/facebook.png")
+									span <br/>Facebook
 								button(id="btnEmail",class="imgButton")
 									img(src="images/email.png")
-									span <br/>Send Email
+									span <br/>&nbsp;&nbsp;Email&nbsp;&nbsp;
 								button(id="btnImgur",class="imgButton")
 									img(src="images/imgur.png")
 									span <br/>Imgur
-							td(valign="center")
-								span Share
 
 	form(id="enterUrl", class="overlayForm centered", action="javascript:formSubmit()")
 		br

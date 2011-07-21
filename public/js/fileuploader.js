@@ -769,11 +769,11 @@ qq.UploadButton = function(o){
     // make button suitable container for input
     qq.css(this._element, {
         position: 'relative',
-        overflow: 'hidden',
+//        overflow: 'hidden',
         // Make sure browse button is in the right side
         // in Internet Explorer
         direction: 'ltr'
-    });   
+    });
     
     this._input = this._createInput();
 };

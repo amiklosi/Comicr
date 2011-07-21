@@ -61,6 +61,17 @@ function createCanvas(source, data, callback) {
 	});
 }
 
+app.configure('development', function() {
+	console.log('development mode');
+	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+	app.use(express.logger({ format: ':date :remote-addr :method :status :url' }));
+});
+
+app.configure('production', function() {
+	console.log('production mode');
+	app.use(express.errorHandler());
+});
+
 app.configure(function() {
 	app.set('views', __dirname + '/views');
 	app.use(express.methodOverride());
@@ -122,7 +133,7 @@ app.get('/email', function(req, res) {
 });
 
 app.get('/imgur', function(req, res) {
-	console.log("Imguring: ",req.query);
+	console.log("Imguring: ", req.query);
 	createCanvas(__dirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				var post_data = querystring.stringify({
@@ -177,7 +188,6 @@ app.get('/image', function(req, res) {
 });
 
 
-
 app.post('/doUpload', function(req, res, next) {
 	var str = Hash.md5(new Date().toString() + req.sessionID);
 	req.session.iUrl = str;
@@ -207,7 +217,20 @@ app.post('/doUpload', function(req, res, next) {
 });
 
 require('./controllers/uploadFromWeb.js');
+require('./controllers/facebook.js');
 
 app.listen(3000);
 
 console.log('Bubblr started on port 3000');
+
+if (process.env.NODE_ENV != 'production') {
+	console.log("Using gmail SMTP");
+	nodemailer.SMTP = {
+		host: "smtp.gmail.com", // required
+		port: 465, // optional, defaults to 25 or 465
+		use_authentication: true,
+		ssl: true,
+		user: "miklosi.attila@gmail.com",
+		pass: "123bolombika"
+	}
+}

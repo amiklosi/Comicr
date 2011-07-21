@@ -19,7 +19,7 @@ function loadImage(url) {
 
 function createUploader() {
 	var uploader = new qq.FileUploaderBasic({
-		element: document.getElementById('file-uploader'),
+//		element: document.getElementById('file-uploader'),
 		button: document.getElementById('file-uploader'),
 		action: '/doUpload',
 		allowedExtensions: ['png','jpg','jpeg','gif'],
@@ -215,6 +215,15 @@ $(this).ready(function() {
 			startProgress("Sending Email...")
 		}
 
+	});
+
+	$('#btnFacebook').click(function() {
+		var matches = /^(.*?:\/\/.*?\/)(.*)$/.exec(location.href);
+
+		u = matches[1]+"image?file=" + image + "&data=" + serializeBubbles(bubbles);
+		t=document.title;
+		window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');
+		return false;
 	});
 
 	$('#btnImgur').click(function() {
