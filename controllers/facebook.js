@@ -23,7 +23,7 @@ app.get('/facebook', function(req, res) {
 			addListener('data',
 				function(c) {
 					if (first) {
-						res.redirect('/?file='+hash);
+						res.redirect('/?file='+hash+".png");
 						first = false;
 					}
 				}

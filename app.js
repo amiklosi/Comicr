@@ -51,7 +51,8 @@ app.configure(function() {
 
 
 app.get('/', function(req, res) {
-	res.render('index.jade', {iUrl: req.session.iUrl});
+	var fbUrl = "http://"+req.headers.host+"/?file="+req.session.iUrl;
+	res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
 });
 
 app.get('/email', function(req, res) {
@@ -144,7 +145,8 @@ app.get('/imgur', function(req, res) {
 app.get('/file/:file',function(req, res) {
 	console.log(req.params.file);
 	var first = true;
-	var inStream = fs.createReadStream(mainDirname+"/public/upload/"+req.params.file+".png").
+	var fileName = req.params.file;
+	var inStream = fs.createReadStream(mainDirname+"/public/upload/"+fileName).
 			addListener('error',
 			function() {
 				console.log('Image does not exist.');
@@ -154,8 +156,8 @@ app.get('/file/:file',function(req, res) {
 			addListener('data',
 			function(c) {
 				if (first) {
-					console.log("Setting iurl to "+req.params.file)
-					req.session.iUrl = req.params.file+".png";
+					console.log("Setting iurl to "+fileName)
+					req.session.iUrl = fileName;
 					res.header('Content-Type', 'image/png');
 					first = false;
 				}
