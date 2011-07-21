@@ -144,7 +144,7 @@ app.get('/imgur', function(req, res) {
 app.get('/file/:file',function(req, res) {
 	console.log(req.params.file);
 	var first = true;
-	var inStream = fs.createReadStream(mainDirname+"/public/upload/"+req.params.file).
+	var inStream = fs.createReadStream(mainDirname+"/public/upload/"+req.params.file+".png").
 			addListener('error',
 			function() {
 				console.log('Image does not exist.');

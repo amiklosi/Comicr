@@ -1,11 +1,14 @@
 app.get('/facebook', function(req, res) {
 	console.log("Facebook image request: ", req.query);
-	res.header('Content-Type', 'image/png');
-	var facebookFile = mainDirname + "/public/upload/" + Hash.md5(req.query.file+req.query.data) + ".png";
+
+	var hash = Hash.md5(req.query.file+req.query.data);
+	var facebookFile = mainDirname + "/public/upload/" + hash + ".png";
+	var first = true;
 	var inStream = fs.createReadStream(facebookFile).
 			addListener('error',
 			function() {
-				console.log('Image does not exist yet, creating.');
+				console.log('Image does not exist yet, creating: '+facebookFile);
+				res.header('Content-Type', 'image/png');
 				canvas.create(mainDirname + "/public/upload/" + req.query.file, req.query.data,
 						function(canvas) {
 							stream = canvas.createPNGStream();
@@ -18,10 +21,13 @@ app.get('/facebook', function(req, res) {
 				);
 			}).
 			addListener('data',
-			function(c) {
-				res.write(c);
-			}).
+				function(c) {
+					if (first) {
+						res.redirect('/?file='+hash);
+						first = false;
+					}
+				}
+			).
 			addListener("close", function() {
-				res.end();
 			});
 });
