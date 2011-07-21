@@ -18,7 +18,7 @@ app.get('/facebook', function(req, res) {
 							});
 							stream.on('end', function() {
 								req.session.iUrl = hash+".png";
-								var fbUrl = "http://"+req.headers.host+"/?file="+hash+".png";
+								var fbUrl = "http://"+req.headers.host+"/file/"+hash+".png";
 								res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
 							});
 						}
@@ -28,7 +28,7 @@ app.get('/facebook', function(req, res) {
 				function(c) {
 					if (first) {
 						req.session.iUrl = hash+".png";
-						var fbUrl = "http://"+req.headers.host+"/?file="+hash+".png";
+						var fbUrl = "http://"+req.headers.host+"/file/"+hash+".png";
 						res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
 						first = false;
 					}

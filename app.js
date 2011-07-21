@@ -51,7 +51,7 @@ app.configure(function() {
 
 
 app.get('/', function(req, res) {
-	var fbUrl = "http://"+req.headers.host+"/?file="+req.session.iUrl;
+	var fbUrl = "http://"+req.headers.host+"/file/"+req.session.iUrl;
 	res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
 });
 
