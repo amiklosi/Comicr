@@ -142,6 +142,10 @@ app.get('/imgur', function(req, res) {
 
 });
 
+renderFile = function(fileName, response) {
+
+}
+
 app.get('/file/:file',function(req, res) {
 	console.log(req.params.file);
 	var first = true;
