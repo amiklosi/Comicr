@@ -2,7 +2,7 @@ var image = iUrl;
 var bubbleEdited;
 var originalText;
 var bubbles = {};
-var urlFormSubmit, textFormSubmit;
+var urlFormSubmit, textFormSubmit, emailFormSubmit;
 
 function loadImage(url) {
 	var cat = new Image();
@@ -227,7 +227,7 @@ $(this).ready(function() {
 		$('#emailForm').toggle(function() {
 			$('#emailFrom').focus();
 		});
-		formSubmit = function() {
+		emailFormSubmit = function() {
 			var s = "/email?file=" + image + "&data=" + encodeURIComponent(serializeBubbles(bubbles));
 			$.getJSON(s,
 					{from: $('#emailFrom').val(),
@@ -236,9 +236,9 @@ $(this).ready(function() {
 						subject: $('#emailSubject').val()},
 					function(json) {
 						if (json.success) {
-							doneProgress();
+							doneProgress('Done.');
 						} else {
-							doneProgress();
+							doneProgress('Could not send email.');
 							// TODO handle
 						}
 					});
