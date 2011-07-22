@@ -19,7 +19,7 @@ app.get('/facebook', function(req, res) {
 							stream.on('end', function() {
 								req.session.iUrl = hash+".png";
 								var fbUrl = "http://"+req.headers.host+"/file/"+hash+".png";
-								res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
+								res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl, isDefault: false});
 							});
 						}
 				);
@@ -29,7 +29,7 @@ app.get('/facebook', function(req, res) {
 					if (first) {
 						req.session.iUrl = hash+".png";
 						var fbUrl = "http://"+req.headers.host+"/file/"+hash+".png";
-						res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
+						res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl, isDefault: false});
 						first = false;
 					}
 				}
