@@ -218,7 +218,7 @@ $(this).ready(function() {
 	});
 
 	$('#btnDownload').click(function() {
-		var s = "/image?file=" + image + "&data=" + encodeURIComponent(serializeBubbles(bubbles));
+		var s = "/downloadImage?file=" + image + "&data=" + encodeURIComponent(serializeBubbles(bubbles));
 		console.log(s);
 		window.location = s;
 	});
