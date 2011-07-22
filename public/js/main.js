@@ -137,7 +137,10 @@ $(this).ready(function() {
 		if (!bubbleEdited) {
 			var b = new Bubble($('#bubbles'));
 			b.clickHandler = bubbleClickHandler;
-			b.startDragHandler = hideControls;
+			b.startDragHandler = function() {
+				bubbleEdited = undefined;
+				hideControls();
+			}
 			b.startResizeHandler = hideControls;
 			b.move(ev.pageX, ev.pageY);
 			bubbles[b.id] = b;
@@ -186,9 +189,20 @@ $(this).ready(function() {
 	});
 
 	$('#btnFlickr').click(function() {
-		openForm("Enter a tag for a random FlickR image");
+		openForm("Enter tags delimited by , for a random FlickR image");
 		formSubmit = function() {
-			alert('Coming Soon');
+			var s = "/imageFromFlickr?tags=" + $("#formField").val();
+			startProgress("Getting image from FlickR...");
+			$.getJSON(s, function(json) {
+				if (json.success) {
+					image = json.id;
+					loadImage("/upload/" + json.id);
+					$('#enterUrl').hide();
+					doneProgress("Got image from FlickR");
+				} else {
+					doneProgress("Could not get image");
+				}
+			});
 		}
 	});
 

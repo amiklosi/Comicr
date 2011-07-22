@@ -18,8 +18,9 @@ nodemailer = require('nodemailer');
 im = require('imagemagick');
 im.identify.path = "/usr/local/bin/identify";
 im.convert.path = "/usr/local/bin/convert";
-
+flickrGateway = require('./flickr/flickrGateway.js');
 resize = require('./public/js/resize.js');
+globals = require('./globals.js');
 
 mainDirname = __dirname;
 
@@ -51,8 +52,13 @@ app.configure(function() {
 
 
 app.get('/', function(req, res) {
+	var isDefault = false;
+	if (!req.session.iUrl) {
+		req.session.iUrl = 'default.png';
+		isDefault = true;
+	}
 	var fbUrl = "http://"+req.headers.host+"/file/"+req.session.iUrl;
-	res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl});
+	res.render('index.jade', {iUrl: req.session.iUrl, fbUrl: fbUrl, isDefault: isDefault});
 });
 
 app.get('/email', function(req, res) {
@@ -216,7 +222,9 @@ app.post('/doUpload', function(req, res, next) {
 	});
 });
 
+
 require('./controllers/uploadFromWeb.js');
+require('./controllers/uploadFromFlickr.js');
 require('./controllers/facebook.js');
 
 app.listen(3000);

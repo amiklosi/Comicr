@@ -37,7 +37,7 @@ div(align="center")
 		br
 		span(id="formLabel") .
 		br
-		input(id="formField", type="url", size="50")
+		input(id="formField", type="text", size="50")
 		br
 		input(id="formSubmit", type="submit",value="Ok")
 		input(id="formCancel", class="cancelButton", type="button",value="Cancel")
@@ -78,6 +78,9 @@ div(align="center")
 	canvas(id="canv",width="300",height="225",class="paintCanvas")
 	span(id="bubbles")
 	br
+	p Click on the image to add speech bubble
+	- if (isDefault)
+		p To put bubbles on another image use the get buttons at the top
 	img(id="flipVert",class="hoverButton",src="images/up-down.png",width="16",height="24")
 	img(id="flipHoriz",class="hoverButton",src="images/left-right.png",width="24",height="16")
 	img(id="close",class="hoverButton",src="images/close.png")
