@@ -33,6 +33,7 @@ input[type="submit"]{
 input,
 textarea {
 	font-size: 16pt;
+	resize: none;
 }
 
 .headerTable {

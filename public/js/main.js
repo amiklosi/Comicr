@@ -2,7 +2,7 @@ var image = iUrl;
 var bubbleEdited;
 var originalText;
 var bubbles = {};
-var formSubmit;
+var urlFormSubmit, textFormSubmit;
 
 function loadImage(url) {
 	var cat = new Image();
@@ -92,12 +92,21 @@ function hideControls() {
 	$('#textInput').hide();
 }
 
-function openForm(text) {
+function openUrlForm(text) {
 	var elem = $('#enterUrl');
-	$('#formLabel').html(text);
-	$('#formField').width('80%');
+	$('#urlFormLabel').html(text);
+	$('#urlFormField').width('80%');
 	$('#enterUrl').toggle(function() {
-		$('#formField').focus();
+		$('#urlFormField').focus();
+	});
+}
+
+function openTextForm(text) {
+	var elem = $('#enterText');
+	$('#textFormLabel').html(text);
+	$('#textFormField').width('80%');
+	$('#enterText').toggle(function() {
+		$('#textFormField').focus();
 	});
 }
 
@@ -173,49 +182,53 @@ $(this).ready(function() {
 	});
 
 	$('#btnWeb').click(function() {
-		openForm("Enter the Image URL");
-		formSubmit = function() {
-			var s = "/imageFromWeb?url=" + $("#formField").val();
+		openUrlForm("Enter the Image URL");
+		urlFormSubmit = function() {
+			var s = "/imageFromWeb?url=" + $("#urlFormField").val();
+			startProgress("Getting image from Web...");
 			$.getJSON(s, function(json) {
 				if (json.success) {
 					image = json.id;
 					loadImage("/upload/" + json.id);
 					$('#enterUrl').hide();
+					doneProgress("Done.");
 				} else {
-					alert('nok');
+					doneProgress("Could not get image: "+json.error);
 				}
 			});
 		}
 	});
 
 	$('#btnFlickr').click(function() {
-		openForm("Enter tags delimited by , for a random FlickR image");
-		formSubmit = function() {
-			var s = "/imageFromFlickr?tags=" + $("#formField").val();
+		openTextForm("Enter tags delimited by , for a random FlickR image");
+		textFormSubmit = function() {
+			var s = "/imageFromFlickr?tags=" + $("#textFormField").val()+"&token="+(new Date());
 			startProgress("Getting image from FlickR...");
 			$.getJSON(s, function(json) {
 				if (json.success) {
 					image = json.id;
 					loadImage("/upload/" + json.id);
-					$('#enterUrl').hide();
-					doneProgress("Got image from FlickR");
+					$('#enterText').hide();
+					doneProgress("Done.");
 				} else {
-					doneProgress("Could not get image");
+					doneProgress("Could not get image: "+json.error);
 				}
 			});
 		}
 	});
 
 	$('#btnDownload').click(function() {
-		var s = "/image?file=" + image + "&data=" + serializeBubbles(bubbles);
+		var s = "/image?file=" + image + "&data=" + encodeURIComponent(serializeBubbles(bubbles));
 		console.log(s);
 		window.location = s;
 	});
 
 	$('#btnEmail').click(function() {
-		$('#emailForm').toggle();
+		$('#emailForm').toggle(function() {
+			$('#emailFrom').focus();
+		});
 		formSubmit = function() {
-			var s = "/email?file=" + image + "&data=" + serializeBubbles(bubbles);
+			var s = "/email?file=" + image + "&data=" + encodeURIComponent(serializeBubbles(bubbles));
 			$.getJSON(s,
 					{from: $('#emailFrom').val(),
 						to: $('#emailTo').val(),
@@ -244,7 +257,7 @@ $(this).ready(function() {
 
 	$('#btnImgur').click(function() {
 		startProgress("Uploading Image to Imgur");
-		var s = "/imgur?file=" + image + "&data=" + serializeBubbles(bubbles);
+		var s = "/imgur?file=" + image + "&data=" + encodeURIComponent(serializeBubbles(bubbles));
 
 		var createLink = function(link) {
 			return "<div class='link'><a href='"+link+"' target='_blank'>"+link+"</a></div>";

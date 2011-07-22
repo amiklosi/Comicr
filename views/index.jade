@@ -33,14 +33,25 @@ div(align="center")
 									img(src="images/imgur.png")
 									span <br/>Imgur
 
-	form(id="enterUrl", class="overlayForm centered", action="javascript:formSubmit()")
+	form(id="enterUrl", class="overlayForm centered", action="javascript:urlFormSubmit()")
 		br
-		span(id="formLabel") .
+		span(id="urlFormLabel") .
 		br
-		input(id="formField", type="text", size="50")
+		input(id="urlFormField", type="url", size="50")
 		br
-		input(id="formSubmit", type="submit",value="Ok")
-		input(id="formCancel", class="cancelButton", type="button",value="Cancel")
+		input(id="urlFormSubmit", type="submit",value="Ok")
+		input(id="urlFormCancel", class="cancelButton", type="button",value="Cancel")
+		br
+		br
+
+	form(id="enterText", class="overlayForm centered", action="javascript:textFormSubmit()")
+		br
+		span(id="textFormLabel") .
+		br
+		input(id="textFormField", type="text", size="50")
+		br
+		input(id="textFormSubmit", type="submit",value="Ok")
+		input(id="textFormCancel", class="cancelButton", type="button",value="Cancel")
 		br
 		br
 
@@ -54,24 +65,25 @@ div(align="center")
 		span(id="progessDone",style="display:none") Done.
 		br
 		br
+
 	form(id="emailForm", class="overlayForm emailForm", action="javascript:formSubmit()")
 		table(width='100%')
 			tr
-				td Your Email
+				td(width="100px") Your Email
 				td
-					input(id="emailFrom", type="email", size="50")
+					input(id="emailFrom", type="email", style="width: 100%")
 			tr
 				td To*
 				td
-					input(id="emailTo", type="email", size="50", required)
+					input(id="emailTo", type="email", style="width: 100%", required)
 			tr
 				td Subject
 				td
-					input(id="emailSubject", type="text", size="50", value="Image from Bubblr")
+					input(id="emailSubject", type="text", style="width: 100%", value="Image from Bubblr")
 			tr
 				td Body
 				td
-					textarea(id="emailBody", type="text", rows="10", cols="50") Hi, look at this cool image:
+					textarea(id="emailBody", type="text", rows="10", style="width: 100%") Hi, look at this cool image:
 		br
 		input(id="emailSubmit", type="submit",value="Ok")
 		input(id="emailCancel", class="cancelButton", type="button",value="Cancel")

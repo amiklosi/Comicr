@@ -32,15 +32,15 @@ this.uploadFromUrl = function(url, req, mainRes) {
 					},
 					function() {
 						mainRes.writeHead(200, {'content-type': 'text/json' });
-						mainRes.write(JSON.stringify({success: false}));
+						mainRes.write(JSON.stringify({success: false, error: 'Error uploading image.'}));
 						mainRes.end('\n');
 					}
 			);
 		})
 	});
-	request.addListener('error', function(){
+	request.addListener('error', function(error){
 		mainRes.writeHead(200, {'content-type': 'text/json' });
-		mainRes.write(JSON.stringify({success: false}));
+		mainRes.write(JSON.stringify({success: false, error: error.toString()}));
 		mainRes.end('\n');
 	});
 }
