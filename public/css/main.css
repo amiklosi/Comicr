@@ -43,6 +43,12 @@ textarea {
 	padding: 0px;
 }
 
+.beta {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
 .progress {
 	position: absolute;
 	display: none;
@@ -170,4 +176,10 @@ a:active {
 	background: -moz-linear-gradient(top, #444, #aaa); /* for firefox 3.6+ */
 	border-radius: 5px;
 	vertical-align: bottom;
+}
+
+.copyright {
+	font-size: 10px;
+	color: #999;
+	text-align: center;
 }
