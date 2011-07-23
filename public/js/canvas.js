@@ -26,8 +26,8 @@ this.create = function (source, data, callback) {
 			ctx.font = '12px Georgia';
 			ctx.strokeStyle = '#000';
 			ctx.fillStyle = '#fff'
-			ctx.fillText("bubblr.co.uk", 5, canvas.height - 20);
-			ctx.strokeText("bubblr.co.uk", 5, canvas.height - 20);
+			ctx.fillText("comicr.co.uk", 5, canvas.height - 20);
+			ctx.strokeText("comicr.co.uk", 5, canvas.height - 20);
 
 			callback(canvas);
 		} catch (e) {

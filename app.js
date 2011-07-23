@@ -72,7 +72,7 @@ require('./controllers/downloadImage.js');
 
 app.listen(3000);
 
-console.log('Bubblr started on port 3000');
+console.log('Comicr started on port 3000');
 
 if (process.env.NODE_ENV != 'production') {
 	console.log("Using gmail SMTP");
