@@ -1,5 +1,5 @@
 app.get('/downloadImage', function(req, res) {
-	console.log(req.query);
+	console.log("Generating image, file=",req.query.file,', data=',req.query.data);
 	var fn = req.query.fileName ? req.query.fileName : 'speechBubble.png';
 
 	res.header('Content-Type', 'image/png');

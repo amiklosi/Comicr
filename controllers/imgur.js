@@ -1,5 +1,5 @@
 app.get('/imgur', function(req, res) {
-	console.log("Imguring: ", req.query);
+	console.log("Imguring, file=",req.query.file,', data=',req.query.data);
 	canvas.create(mainDirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				var post_data = querystring.stringify({

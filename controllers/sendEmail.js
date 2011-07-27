@@ -1,4 +1,5 @@
 app.get('/email', function(req, res) {
+	console.log("Sending Email, file=",req.query.file,', data=',req.query.data);
 	canvas.create(mainDirname + "/public/upload/" + req.query.file, req.query.data,
 			function(canvas) {
 				var cid = Date.now() + ".image.png";
@@ -14,8 +15,6 @@ app.get('/email', function(req, res) {
 						}
 					]
 				};
-				console.log(req.query.from);
-				console.log(req.query.from.length);
 				if (req.query.from && req.query.from.length > 0) message.sender = req.query.from;
 				else message.sender = "info@comicr.co.uk";
 				if (req.query.subject) message.subject = req.query.subject;

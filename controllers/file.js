@@ -1,5 +1,4 @@
 app.get('/file/:file',function(req, res) {
-	console.log(req.params.file);
 	var first = true;
 	var fileName = req.params.file;
 	var inStream = fs.createReadStream(mainDirname+"/public/upload/"+fileName).
