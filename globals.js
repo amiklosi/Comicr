@@ -1,5 +1,10 @@
 this.uploadFromUrl = function(url, req, mainRes) {
 	var matches = /^.*?:\/\/(.*?)(\/.*)$/.exec(url);
+	if (!matches || matches.length < 3) {
+		mainRes.writeHead(200, {'content-type': 'text/json' });
+		mainRes.write(JSON.stringify({success: false, error: 'Error uploading image.'}));
+		mainRes.end('\n');
+	}
 	var options = {
 		host: matches[1],
 		port: 80,
